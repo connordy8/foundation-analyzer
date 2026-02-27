@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 
 interface FitScoreGaugeProps {
-  score: number; // 0-100
+  score: number;
 }
 
 export function FitScoreGauge({ score }: FitScoreGaugeProps) {
   const [animatedScore, setAnimatedScore] = useState(0);
 
   useEffect(() => {
-    const duration = 1000;
+    const duration = 1200;
     const steps = 60;
     const increment = score / steps;
     let current = 0;
@@ -26,20 +26,16 @@ export function FitScoreGauge({ score }: FitScoreGaugeProps) {
     return () => clearInterval(interval);
   }, [score]);
 
-  // SVG arc calculation
   const radius = 80;
-  const strokeWidth = 12;
+  const strokeWidth = 14;
   const cx = 100;
-  const cy = 100;
+  const cy = 95;
 
-  // Semi-circle from 180° to 0° (left to right across top)
+  // Semi-circle arc from left to right (180° to 0°)
   const startAngle = Math.PI;
-  const endAngle = 0;
-  const sweepAngle = startAngle - endAngle;
+  const sweepAngle = Math.PI;
   const filledAngle = startAngle - (animatedScore / 100) * sweepAngle;
 
-  const arcX1 = cx + radius * Math.cos(startAngle);
-  const arcY1 = cy - radius * Math.sin(startAngle);
   const arcX2 = cx + radius * Math.cos(filledAngle);
   const arcY2 = cy - radius * Math.sin(filledAngle);
 
@@ -48,15 +44,8 @@ export function FitScoreGauge({ score }: FitScoreGaugeProps) {
   const bgPath = `M ${cx - radius} ${cy} A ${radius} ${radius} 0 1 1 ${cx + radius} ${cy}`;
   const fillPath =
     animatedScore > 0
-      ? `M ${arcX1} ${arcY1} A ${radius} ${radius} 0 ${largeArc} 1 ${arcX2} ${arcY2}`
+      ? `M ${cx - radius} ${cy} A ${radius} ${radius} 0 ${largeArc} 1 ${arcX2} ${arcY2}`
       : "";
-
-  const getColor = (s: number) => {
-    if (s >= 70) return "#06D6A0"; // green
-    if (s >= 50) return "#FFD166"; // yellow
-    if (s >= 30) return "#F77F00"; // orange
-    return "#EF476F"; // red
-  };
 
   const getLabel = (s: number) => {
     if (s >= 70) return "Strong Fit";
@@ -65,9 +54,34 @@ export function FitScoreGauge({ score }: FitScoreGaugeProps) {
     return "Low Fit";
   };
 
+  const getLabelColor = (s: number) => {
+    if (s >= 70) return "#2DD7B9";
+    if (s >= 50) return "#2DAFFF";
+    if (s >= 30) return "#BEA0E9";
+    return "#EF476F";
+  };
+
   return (
     <div className="flex flex-col items-center">
-      <svg viewBox="0 0 200 120" className="w-64 h-32">
+      <svg viewBox="0 0 200 120" className="w-72 h-[140px]">
+        <defs>
+          {/* Gradient for the arc */}
+          <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#EF476F" />
+            <stop offset="30%" stopColor="#BEA0E9" />
+            <stop offset="60%" stopColor="#2DAFFF" />
+            <stop offset="100%" stopColor="#2DD7B9" />
+          </linearGradient>
+          {/* Glow filter */}
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
         {/* Background arc */}
         <path
           d={bgPath}
@@ -75,37 +89,40 @@ export function FitScoreGauge({ score }: FitScoreGaugeProps) {
           stroke="#E2E8F0"
           strokeWidth={strokeWidth}
           strokeLinecap="round"
+          opacity="0.5"
         />
-        {/* Filled arc */}
+
+        {/* Filled arc with gradient */}
         {fillPath && (
           <path
             d={fillPath}
             fill="none"
-            stroke={getColor(animatedScore)}
+            stroke="url(#gaugeGradient)"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
+            filter="url(#glow)"
           />
         )}
-        {/* Score text */}
+
+        {/* Score number */}
         <text
           x={cx}
-          y={cy - 10}
+          y={cy - 20}
           textAnchor="middle"
-          className="text-4xl font-bold"
-          fill={getColor(animatedScore)}
-          fontSize="36"
-          fontWeight="700"
+          fontSize="40"
+          fontWeight="800"
+          fill="#001846"
         >
           {animatedScore}%
         </text>
       </svg>
       <p
-        className="text-lg font-semibold -mt-2"
-        style={{ color: getColor(score) }}
+        className="text-lg font-bold -mt-1"
+        style={{ color: getLabelColor(score) }}
       >
         {getLabel(score)}
       </p>
-      <p className="text-sm text-ma-gray-500 mt-1">Merit America Fit Score</p>
+      <p className="text-sm text-ma-gray-500 mt-0.5">Merit America Fit Score</p>
     </div>
   );
 }

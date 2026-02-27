@@ -91,7 +91,7 @@ export interface Grant {
 export type CauseArea =
   | "Workforce Development"
   | "Adult Education"
-  | "Technology & STEM"
+  | "AI & Technology"
   | "Economic Mobility"
   | "Racial Equity & Inclusion"
   | "Youth Development"
@@ -110,6 +110,24 @@ export interface ClassifiedGrant extends Grant {
   causeArea: CauseArea;
   relevanceScore: number;
 }
+
+// User preferences for customizable scoring
+
+export type RecipientType = "nonprofit" | "university" | "government" | "any";
+
+export interface UserPreferences {
+  grantSizeMin: number;   // e.g. 100000
+  grantSizeMax: number;   // e.g. 5000000
+  causeAreas: CauseArea[]; // selected cause areas get relevance=1.0
+  recipientType: RecipientType;
+}
+
+export const DEFAULT_PREFERENCES: UserPreferences = {
+  grantSizeMin: 100_000,
+  grantSizeMax: 5_000_000,
+  causeAreas: ["Workforce Development", "AI & Technology", "Economic Mobility", "Adult Education", "Racial Equity & Inclusion"],
+  recipientType: "nonprofit",
+};
 
 // Scoring types
 
@@ -130,7 +148,7 @@ export interface FitScoreResult {
 export interface GeographicFocus {
   type: "National" | "Regional";
   states: string[];
-  label: string; // e.g. "National" or "Regional: Southeast (GA, FL, NC)"
+  label: string;
 }
 
 export interface CauseAreaBreakdown {
@@ -141,6 +159,25 @@ export interface CauseAreaBreakdown {
   relevanceScore: number;
 }
 
+// Leadership signals / news scraping
+
+export interface NewsArticle {
+  title: string;
+  url: string;
+  publishedDate: string;
+  source: string;
+  snippet: string;
+}
+
+export interface LeadershipSignal {
+  articles: NewsArticle[];
+  relevantQuotes: string[];
+  keywordsFound: string[];
+  score: number; // 0-100
+}
+
+// Full analysis result
+
 export interface AnalysisResult {
   organization: ProPublicaOrganization;
   filing: ProPublicaFiling;
@@ -150,5 +187,6 @@ export interface AnalysisResult {
   topRecipients: ClassifiedGrant[];
   fitScore: FitScoreResult;
   geographicFocus: GeographicFocus;
+  leadershipSignals: LeadershipSignal;
   hasGrantData: boolean;
 }

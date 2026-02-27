@@ -23,7 +23,7 @@ const NTEE_MAJOR_GROUP_MAP: Record<string, { causeArea: CauseArea; relevance: nu
   R: { causeArea: "Racial Equity & Inclusion", relevance: 0.5 },
   S: { causeArea: "Community Development", relevance: 0.4 },
   T: { causeArea: "Philanthropy & Intermediary", relevance: 0.1 },
-  U: { causeArea: "Technology & STEM", relevance: 0.7 },
+  U: { causeArea: "AI & Technology", relevance: 0.7 },
   V: { causeArea: "Human Services", relevance: 0.15 },
   W: { causeArea: "Human Services", relevance: 0.15 },
   X: { causeArea: "Other", relevance: 0.05 },
@@ -47,7 +47,7 @@ const NTEE_SUBCODE_MAP: Record<string, { causeArea: CauseArea; relevance: number
   P8: { causeArea: "Human Services", relevance: 0.3 },
   S2: { causeArea: "Economic Mobility", relevance: 0.6 },
   S4: { causeArea: "Economic Mobility", relevance: 0.55 },
-  U5: { causeArea: "Technology & STEM", relevance: 0.75 },
+  U5: { causeArea: "AI & Technology", relevance: 0.75 },
 };
 
 // Keyword patterns for grant purpose text classification
@@ -63,8 +63,8 @@ const KEYWORD_PATTERNS: Array<[RegExp, CauseArea, number]> = [
   [/\b(postsecondary|community\s*college|two[\s-]year\s*college|technical\s*college)/i, "Adult Education", 0.8],
 
   // High relevance - tech training
-  [/\b(tech\s*(train|edu|career|pathway)|coding|software\s*develop|data\s*(analy|scien)|cyber\s*secur|IT\s*train|digital\s*skill)/i, "Technology & STEM", 0.85],
-  [/\b(STEM|computer\s*science|artificial\s*intelligence|machine\s*learn)/i, "Technology & STEM", 0.7],
+  [/\b(tech\s*(train|edu|career|pathway)|coding|software\s*develop|data\s*(analy|scien)|cyber\s*secur|IT\s*train|digital\s*skill)/i, "AI & Technology", 0.85],
+  [/\b(STEM|computer\s*science|artificial\s*intelligence|machine\s*learn)/i, "AI & Technology", 0.7],
 
   // Medium-high relevance - economic mobility
   [/\b(economic\s*mobil|upward\s*mobil|poverty\s*reduc|financial\s*stabil|income\s*(increas|mobil)|wage\s*gain)/i, "Economic Mobility", 0.75],

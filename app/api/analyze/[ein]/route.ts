@@ -3,13 +3,25 @@ import { getOrganization, getXmlObjectIds, fetchXmlContent } from "@/lib/propubl
 import { parseXmlGrants } from "@/lib/xml-parser";
 import { classifyGrant } from "@/lib/ntee-codes";
 import { calculateFitScore, calculateGeographicFocus } from "@/lib/scoring";
-import type { AnalysisResult, CauseAreaBreakdown, ClassifiedGrant } from "@/lib/types";
+import { searchFoundationNews } from "@/lib/news-scraper";
+import type { AnalysisResult, CauseAreaBreakdown, ClassifiedGrant, UserPreferences, CauseArea } from "@/lib/types";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ ein: string }> }
 ) {
   const { ein } = await params;
+  const searchParams = request.nextUrl.searchParams;
+
+  // Parse user preferences from query params
+  const preferences: UserPreferences = {
+    grantSizeMin: parseInt(searchParams.get("grantSizeMin") || "100000", 10),
+    grantSizeMax: parseInt(searchParams.get("grantSizeMax") || "5000000", 10),
+    causeAreas: searchParams.get("causeAreas")
+      ? (searchParams.get("causeAreas")!.split(",") as CauseArea[])
+      : ["Workforce Development", "AI & Technology", "Economic Mobility", "Adult Education", "Racial Equity & Inclusion"],
+    recipientType: (searchParams.get("recipientType") as UserPreferences["recipientType"]) || "nonprofit",
+  };
 
   try {
     // Step 1: Get organization data and filings
@@ -23,34 +35,38 @@ export async function GET(
       );
     }
 
-    // Pick the most recent filing
     const filing = filings_with_data[0];
     const formType = filing.formtype;
 
-    // Step 2: Try to get XML for grant-level data
+    // Step 2: Fetch XML + news in parallel
     let grants: ClassifiedGrant[] = [];
     let hasGrantData = false;
 
-    try {
-      const xmlIds = await getXmlObjectIds(ein);
-
-      if (xmlIds.length > 0) {
-        // Fetch the most recent XML
-        const xmlContent = await fetchXmlContent(xmlIds[0]);
-        const rawGrants = parseXmlGrants(xmlContent, formType);
-
-        if (rawGrants.length > 0) {
-          grants = rawGrants.map(classifyGrant);
-          hasGrantData = true;
+    const [xmlResult, leadershipSignals] = await Promise.all([
+      // XML grant data
+      (async () => {
+        try {
+          const xmlIds = await getXmlObjectIds(ein);
+          if (xmlIds.length > 0) {
+            const xmlContent = await fetchXmlContent(xmlIds[0]);
+            return parseXmlGrants(xmlContent, formType);
+          }
+        } catch (e) {
+          console.error("XML processing error:", e);
         }
-      }
-    } catch (xmlError) {
-      console.error("XML processing error:", xmlError);
-      // Continue without grant data
+        return [];
+      })(),
+      // News/leadership signals
+      searchFoundationNews(organization.name),
+    ]);
+
+    if (xmlResult.length > 0) {
+      grants = xmlResult.map(classifyGrant);
+      hasGrantData = true;
     }
 
-    // Step 3: Calculate scores and breakdowns
-    const fitScore = calculateFitScore(grants);
+    // Step 3: Calculate scores
+    const fitScore = calculateFitScore(grants, leadershipSignals, preferences);
     const geographicFocus = calculateGeographicFocus(grants);
 
     // Step 4: Cause area breakdown
@@ -79,9 +95,7 @@ export async function GET(
       .sort((a, b) => b.totalDollars - a.totalDollars);
 
     // Step 5: Top recipients
-    const topRecipients = [...grants]
-      .sort((a, b) => b.amount - a.amount)
-      .slice(0, 20);
+    const topRecipients = [...grants].sort((a, b) => b.amount - a.amount).slice(0, 20);
 
     const result: AnalysisResult = {
       organization,
@@ -92,6 +106,7 @@ export async function GET(
       topRecipients,
       fitScore,
       geographicFocus,
+      leadershipSignals,
       hasGrantData,
     };
 
@@ -100,9 +115,6 @@ export async function GET(
     });
   } catch (e) {
     console.error("Analysis error:", e);
-    return NextResponse.json(
-      { error: "Failed to analyze organization" },
-      { status: 502 }
-    );
+    return NextResponse.json({ error: "Failed to analyze organization" }, { status: 502 });
   }
 }
