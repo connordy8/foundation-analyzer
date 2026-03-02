@@ -192,7 +192,7 @@ export default function Home() {
                   coverage, and calculate a custom fit score.
                 </p>
                 <div className="flex flex-wrap justify-center gap-2 mt-6">
-                  {["Gates Foundation", "Ford Foundation", "Walton Family", "Bloomberg Philanthropies", "Ballmer Group"].map(
+                  {["Gates Foundation", "Walton Family", "Rockefeller Foundation", "Robin Hood Foundation", "Kresge Foundation"].map(
                     (suggestion) => (
                       <button
                         key={suggestion}
