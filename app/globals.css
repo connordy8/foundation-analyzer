@@ -32,134 +32,8 @@
 
 body {
   font-family: "DM Sans", system-ui, -apple-system, sans-serif;
-  background-color: #FAFBFE;
-  color: var(--color-ma-navy);
-  overflow-x: hidden;
-}
-
-/* Merit America heading treatment */
-.ma-heading {
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.ma-label {
-  font-family: "DM Sans", system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.55em;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-/* Glass morphism utility */
-.glass {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(223, 207, 244, 0.3);
-  border-radius: 18px;
-}
-
-/* Gradient utilities */
-.gradient-hero {
-  background: linear-gradient(135deg, #2DD7B9 0%, #BEA0E9 50%, #FBCFCF 100%);
-}
-
-.gradient-score {
-  background: linear-gradient(135deg, #2DD7B9, #2DAFFF);
-}
-
-.gradient-accent {
-  background: linear-gradient(135deg, #DFCFF4, #91F0DF);
-}
-
-.gradient-warm {
-  background: linear-gradient(135deg, #FEE898, #FBCFCF, #DFCFF4);
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #2DD7B9, #BEA0E9);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Animated background blobs */
-.blob-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
-  animation: blob-float 20s ease-in-out infinite;
-}
-
-.blob-1 {
-  width: 500px;
-  height: 500px;
-  background: #91F0DF;
-  top: -10%;
-  right: -10%;
-  animation-delay: 0s;
-}
-
-.blob-2 {
-  width: 400px;
-  height: 400px;
-  background: #DFCFF4;
-  bottom: 10%;
-  left: -8%;
-  animation-delay: -7s;
-}
-
-.blob-3 {
-  width: 350px;
-  height: 350px;
-  background: #FBCFCF;
-  top: 40%;
-  right: 20%;
-  animation-delay: -14s;
-}
-
-@keyframes blob-float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -40px) scale(1.05); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(15px, 30px) scale(1.02); }
-}
-
-/* Pill button */
-.pill-btn {
-  border-radius: 9999px;
-  padding: 0.5rem 1.5rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.pill-btn-primary {
-  background: linear-gradient(135deg, #2DD7B9, #2DAFFF);
-  color: white;
-  box-shadow: 0 2px 12px rgba(45, 215, 185, 0.3);
-}
-
-.pill-btn-primary:hover {
-  box-shadow: 0 4px 20px rgba(45, 215, 185, 0.45);
-  transform: translateY(-1px);
+  background-color: var(--color-ma-gray-50);
+  color: var(--color-ma-gray-900);
 }
 
 /* Scrollbar */
@@ -172,10 +46,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-ma-lavender);
+  background: var(--color-ma-gray-300);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ma-purple);
+  background: var(--color-ma-gray-400);
 }

@@ -10,9 +10,9 @@ interface LeadershipSignalsProps {
 export function LeadershipSignals({ signals }: LeadershipSignalsProps) {
   if (signals.articles.length === 0 && signals.relevantQuotes.length === 0) {
     return (
-      <div className="glass-card p-6">
-        <h3 className="font-semibold text-ma-navy text-sm uppercase tracking-wide mb-3 flex items-center gap-2">
-          <Newspaper className="h-4 w-4 text-ma-purple" />
+      <div className="bg-white rounded-xl border border-ma-gray-200 p-6">
+        <h3 className="font-semibold text-ma-gray-800 text-sm uppercase tracking-wide mb-3 flex items-center gap-2">
+          <Newspaper className="h-4 w-4 text-ma-teal" />
           Leadership & Public Signals
         </h3>
         <p className="text-ma-gray-500 text-sm">
@@ -23,15 +23,15 @@ export function LeadershipSignals({ signals }: LeadershipSignalsProps) {
   }
 
   return (
-    <div className="glass-card p-6 space-y-5">
+    <div className="bg-white rounded-xl border border-ma-gray-200 p-6 space-y-5">
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-ma-navy text-sm uppercase tracking-wide flex items-center gap-2">
-          <Newspaper className="h-4 w-4 text-ma-purple" />
+        <h3 className="font-semibold text-ma-gray-800 text-sm uppercase tracking-wide flex items-center gap-2">
+          <Newspaper className="h-4 w-4 text-ma-teal" />
           Leadership & Public Signals
         </h3>
         {signals.keywordsFound.length > 0 && (
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-ma-lavender/40 text-ma-navy text-xs font-medium">
-            <Sparkles className="h-3 w-3 text-ma-purple" />
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-ma-teal/10 text-ma-teal text-xs font-medium">
+            <Sparkles className="h-3 w-3" />
             {signals.keywordsFound.length} keyword(s) matched
           </div>
         )}
@@ -60,10 +60,10 @@ export function LeadershipSignals({ signals }: LeadershipSignalsProps) {
           {signals.relevantQuotes.slice(0, 3).map((quote, i) => (
             <div
               key={i}
-              className="flex gap-2.5 p-3 rounded-xl bg-gradient-to-r from-ma-lavender/20 to-ma-mint/20 border border-ma-lavender/30"
+              className="flex gap-2.5 p-3 rounded-lg bg-ma-gray-50 border border-ma-gray-200"
             >
-              <Quote className="h-4 w-4 text-ma-purple shrink-0 mt-0.5" />
-              <p className="text-sm text-ma-navy leading-relaxed">
+              <Quote className="h-4 w-4 text-ma-teal shrink-0 mt-0.5" />
+              <p className="text-sm text-ma-gray-700 leading-relaxed">
                 &ldquo;{quote}&rdquo;
               </p>
             </div>
@@ -88,7 +88,7 @@ export function LeadershipSignals({ signals }: LeadershipSignalsProps) {
               >
                 <ExternalLink className="h-3.5 w-3.5 text-ma-gray-400 group-hover:text-ma-teal shrink-0 mt-0.5" />
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-ma-navy group-hover:text-ma-teal truncate transition-colors">
+                  <p className="text-sm font-medium text-ma-gray-800 group-hover:text-ma-teal truncate transition-colors">
                     {article.title}
                   </p>
                   <p className="text-xs text-ma-gray-400">

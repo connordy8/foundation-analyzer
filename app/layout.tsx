@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Foundation Analyzer | Merit America",
+  title: "merit MAtch | Merit America",
   description:
     "Analyze any foundation's IRS 990 data to reveal giving composition, major grant recipients, recent leadership signals, and a customizable Merit America funding fit score.",
-  themeColor: "#001846",
 };
 
 export default function RootLayout({

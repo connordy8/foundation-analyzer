@@ -61,7 +61,7 @@ export async function searchFoundationNews(foundationName: string): Promise<Lead
     const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&when=6m&ceid=US:en&hl=en-US&gl=US`;
 
     const rssRes = await fetch(rssUrl, {
-      headers: { "User-Agent": "Mozilla/5.0 (compatible; FoundationAnalyzer/1.0)" },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; meritMAtch/1.0)" },
       signal: AbortSignal.timeout(10000),
     });
 
@@ -102,7 +102,7 @@ export async function searchFoundationNews(foundationName: string): Promise<Lead
       if (!article.url || article.url.includes("news.google.com")) continue;
 
       const pageRes = await fetch(article.url, {
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; FoundationAnalyzer/1.0)" },
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; meritMAtch/1.0)" },
         signal: AbortSignal.timeout(8000),
       });
 

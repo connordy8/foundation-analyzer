@@ -122,7 +122,7 @@ export function FitScoreGauge({ score }: FitScoreGaugeProps) {
       >
         {getLabel(score)}
       </p>
-      <p className="text-sm text-ma-gray-500 mt-0.5">Merit America Fit Score</p>
+      <p className="text-sm text-ma-gray-500 mt-0.5">merit MAtch Score</p>
     </div>
   );
 }

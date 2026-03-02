@@ -10,17 +10,17 @@ interface PreferencesPanelProps {
   onChange: (prefs: UserPreferences) => void;
 }
 
-const CAUSE_OPTIONS: { label: string; value: CauseArea; color: string }[] = [
-  { label: "AI & Technology", value: "AI & Technology", color: "bg-ma-sky text-ma-navy" },
-  { label: "Workforce Dev", value: "Workforce Development", color: "bg-ma-teal/20 text-ma-navy" },
-  { label: "Economic Mobility", value: "Economic Mobility", color: "bg-ma-yellow/60 text-ma-navy" },
-  { label: "Adult Education", value: "Adult Education", color: "bg-ma-mint/60 text-ma-navy" },
-  { label: "Racial Equity", value: "Racial Equity & Inclusion", color: "bg-ma-purple/30 text-ma-navy" },
-  { label: "K-12 Education", value: "K-12 Education", color: "bg-ma-lavender/60 text-ma-navy" },
-  { label: "Higher Education", value: "Higher Education", color: "bg-ma-blue/20 text-ma-navy" },
-  { label: "Health", value: "Health", color: "bg-ma-pink/60 text-ma-navy" },
-  { label: "Environment", value: "Environment", color: "bg-ma-green/20 text-ma-navy" },
-  { label: "Arts & Culture", value: "Arts & Culture", color: "bg-ma-orange/20 text-ma-navy" },
+const CAUSE_OPTIONS: { label: string; value: CauseArea }[] = [
+  { label: "AI & Technology", value: "AI & Technology" },
+  { label: "Workforce Dev", value: "Workforce Development" },
+  { label: "Economic Mobility", value: "Economic Mobility" },
+  { label: "Adult Education", value: "Adult Education" },
+  { label: "Racial Equity", value: "Racial Equity & Inclusion" },
+  { label: "K-12 Education", value: "K-12 Education" },
+  { label: "Higher Education", value: "Higher Education" },
+  { label: "Health", value: "Health" },
+  { label: "Environment", value: "Environment" },
+  { label: "Arts & Culture", value: "Arts & Culture" },
 ];
 
 const RECIPIENT_OPTIONS: { label: string; value: RecipientType }[] = [
@@ -65,7 +65,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
     <div className="max-w-2xl mx-auto mb-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 mx-auto px-5 py-2.5 rounded-full glass-card hover:shadow-md transition-all text-sm font-medium text-ma-navy"
+        className="flex items-center gap-2 mx-auto px-4 py-2 rounded-full bg-white border border-ma-gray-200 hover:border-ma-teal hover:shadow-sm transition-all text-sm font-medium text-ma-gray-600"
       >
         <Settings2 className="h-4 w-4 text-ma-teal" />
         Customize your search
@@ -73,10 +73,10 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
       </button>
 
       {isOpen && (
-        <div className="mt-4 glass-card p-6 space-y-6 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="mt-4 bg-white border border-ma-gray-200 rounded-xl p-6 space-y-6">
           {/* Cause Area Priorities */}
           <div>
-            <label className="text-sm font-semibold text-ma-navy block mb-3">
+            <label className="text-sm font-semibold text-ma-gray-800 block mb-3">
               Cause Area Priorities
               <span className="font-normal text-ma-gray-500 ml-2">Select what matters to you</span>
             </label>
@@ -89,7 +89,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
                     onClick={() => toggleCauseArea(opt.value)}
                     className={`px-3.5 py-1.5 rounded-full text-sm font-medium transition-all ${
                       selected
-                        ? `${opt.color} ring-2 ring-ma-teal shadow-sm`
+                        ? "bg-ma-teal/10 text-ma-teal ring-2 ring-ma-teal"
                         : "bg-ma-gray-100 text-ma-gray-400 hover:bg-ma-gray-200"
                     }`}
                   >
@@ -102,7 +102,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
 
           {/* Grant Size Range */}
           <div>
-            <label className="text-sm font-semibold text-ma-navy block mb-3">
+            <label className="text-sm font-semibold text-ma-gray-800 block mb-3">
               Grant Size Sweet Spot
               <span className="font-normal text-ma-gray-500 ml-2">
                 {formatCurrency(preferences.grantSizeMin)} – {formatCurrency(preferences.grantSizeMax)}
@@ -140,7 +140,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
                       onChange({ ...preferences, grantSizeMax: val });
                     }
                   }}
-                  className="w-full accent-ma-purple"
+                  className="w-full accent-ma-teal"
                 />
               </div>
             </div>
@@ -148,7 +148,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
 
           {/* Recipient Type */}
           <div>
-            <label className="text-sm font-semibold text-ma-navy block mb-3">
+            <label className="text-sm font-semibold text-ma-gray-800 block mb-3">
               Primary Recipient Type
             </label>
             <div className="flex gap-2">
@@ -158,7 +158,7 @@ export function PreferencesPanel({ preferences, onChange }: PreferencesPanelProp
                   onClick={() => onChange({ ...preferences, recipientType: opt.value })}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     preferences.recipientType === opt.value
-                      ? "gradient-score text-white shadow-sm"
+                      ? "bg-ma-teal text-white"
                       : "bg-ma-gray-100 text-ma-gray-500 hover:bg-ma-gray-200"
                   }`}
                 >

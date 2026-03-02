@@ -5,7 +5,7 @@ import { SearchBar } from "@/components/search-bar";
 import { FoundationCard } from "@/components/foundation-card";
 import { AnalysisDashboard } from "@/components/analysis-dashboard";
 import { PreferencesPanel } from "@/components/preferences-panel";
-import { Loader2, Sparkles, TrendingUp } from "lucide-react";
+import { Loader2, BarChart3 } from "lucide-react";
 import type { ProPublicaSearchOrg, AnalysisResult, UserPreferences } from "@/lib/types";
 import { DEFAULT_PREFERENCES } from "@/lib/types";
 
@@ -107,43 +107,23 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen relative">
-      {/* Animated background blobs */}
-      <div className="blob-container">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-      </div>
-
-      {/* Header — Merit America branded */}
-      <div className="bg-ma-navy text-white py-5 px-4 relative overflow-hidden">
-        {/* Subtle gradient accent line at top */}
-        <div className="absolute top-0 left-0 right-0 h-1 gradient-hero" />
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {/* MA-style upward triangle mark */}
-              <svg viewBox="0 0 36 36" className="w-9 h-9 shrink-0">
-                <polygon points="18,4 32,30 4,30" fill="#2DD7B9" opacity="0.9" />
-                <polygon points="18,10 26,28 10,28" fill="#001846" opacity="0.4" />
-              </svg>
-              <div>
-                <h1 className="ma-heading text-[22px] leading-tight">
-                  <span>foundation</span>{" "}
-                  <span className="ma-label">ANALYZER</span>
-                </h1>
-              </div>
-            </div>
-            <div className="hidden sm:flex items-center gap-1.5 text-white/50 text-xs">
-              <span>powered by</span>
-              <span className="text-ma-teal font-semibold">merit</span>
-              <span className="text-white/70 font-semibold text-[10px] tracking-widest uppercase">America</span>
-            </div>
+    <main className="min-h-screen">
+      {/* Header */}
+      <div className="bg-ma-navy text-white py-6 px-4">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-3 mb-1">
+            <BarChart3 className="h-7 w-7 text-ma-teal" />
+            <h1 className="text-2xl font-bold">
+              merit <span className="text-ma-teal">MA</span>tch
+            </h1>
           </div>
+          <p className="text-ma-gray-300 text-sm ml-10">
+            Analyze foundation giving patterns and Merit America funding fit
+          </p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-8 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 py-8">
         {/* Analysis view */}
         {analysisResult ? (
           <AnalysisDashboard result={analysisResult} onBack={handleBack} />
@@ -159,7 +139,7 @@ export default function Home() {
 
             {/* Error */}
             {error && (
-              <div className="max-w-2xl mx-auto mb-6 glass-card p-4 text-sm text-ma-red border-l-4 border-ma-red">
+              <div className="max-w-2xl mx-auto mb-6 bg-ma-red/10 border border-ma-red/30 rounded-lg p-4 text-sm text-ma-red">
                 {error}
               </div>
             )}
@@ -167,12 +147,11 @@ export default function Home() {
             {/* Analyzing overlay */}
             {isAnalyzing && (
               <div className="flex flex-col items-center gap-4 py-16">
-                <div className="relative">
-                  <Loader2 className="h-12 w-12 text-ma-teal animate-spin" />
-                  <Sparkles className="h-5 w-5 text-ma-purple absolute -top-1 -right-1 animate-pulse" />
-                </div>
+                <Loader2 className="h-10 w-10 text-ma-teal animate-spin" />
                 <div className="text-center">
-                  <p className="text-lg font-bold text-ma-navy">Analyzing foundation...</p>
+                  <p className="text-lg font-semibold text-ma-gray-800">
+                    Analyzing foundation...
+                  </p>
                   <p className="text-sm text-ma-gray-500 mt-1 max-w-md">
                     Fetching 990 data, parsing grants, scanning press coverage, and calculating your custom fit score. This may take 15-30 seconds.
                   </p>
@@ -202,35 +181,23 @@ export default function Home() {
 
             {/* Landing state */}
             {!isAnalyzing && query.length < 2 && searchResults.length === 0 && (
-              <div className="text-center py-12">
-                {/* MA-style triangle icon */}
-                <div className="mx-auto mb-6 w-20 h-20 rounded-2xl bg-ma-navy flex items-center justify-center shadow-lg">
-                  <svg viewBox="0 0 40 40" className="w-10 h-10">
-                    <polygon points="20,6 36,34 4,34" fill="#2DD7B9" />
-                    <polygon points="20,14 28,32 12,32" fill="#001846" opacity="0.3" />
-                  </svg>
-                </div>
-                <h2 className="ma-heading text-3xl text-ma-navy mb-4">
-                  Discover your next funder
+              <div className="text-center py-16">
+                <BarChart3 className="h-16 w-16 text-ma-gray-300 mx-auto mb-4" />
+                <h2 className="text-xl font-semibold text-ma-gray-700 mb-2">
+                  Search for any foundation
                 </h2>
-                <div className="max-w-2xl mx-auto space-y-3 text-ma-gray-600 leading-relaxed">
-                  <p>
-                    <span className="font-semibold text-ma-navy">Foundation Analyzer</span> uses publicly available IRS Form 990 data to break down any foundation&apos;s giving by cause area, surface their largest grant recipients, and scan recent press coverage for alignment signals — all from a single name search.
-                  </p>
-                  <p>
-                    It calculates a customizable <span className="font-semibold text-ma-teal">Merit America Fit Score</span> across five dimensions — cause area alignment, grant size compatibility, prior similar funding, recipient type match, and leadership signals — with user-configurable priorities for cause areas, grant size ranges, and recipient types.
-                  </p>
-                  <p className="text-sm text-ma-gray-500">
-                    Powered by the ProPublica Nonprofit Explorer API and IRS XML e-files. No API keys required.
-                  </p>
-                </div>
-                <div className="flex flex-wrap justify-center gap-2 mt-8">
+                <p className="text-ma-gray-500 max-w-md mx-auto">
+                  Enter a foundation name to analyze their 990 filing data,
+                  see their giving composition by cause area, scan recent press
+                  coverage, and calculate a custom fit score.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 mt-6">
                   {["Gates Foundation", "Ford Foundation", "Walton Family", "Bloomberg Philanthropies", "Ballmer Group"].map(
                     (suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => handleQueryChange(suggestion)}
-                        className="pill-btn glass-card !bg-white/60 text-ma-navy hover:!bg-ma-teal/10 hover:text-ma-teal transition-all text-sm"
+                        className="px-4 py-2 bg-white border border-ma-gray-200 rounded-full text-sm text-ma-gray-600 hover:border-ma-teal hover:text-ma-teal transition-colors"
                       >
                         {suggestion}
                       </button>

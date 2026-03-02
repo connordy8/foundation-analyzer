@@ -37,8 +37,8 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Toolti
   if (!active || !payload?.length) return null;
   const data = payload[0].payload;
   return (
-    <div className="glass-card !rounded-xl shadow-lg p-3 text-sm">
-      <p className="font-semibold text-ma-navy">{data.causeArea}</p>
+    <div className="bg-white rounded-lg shadow-lg border border-ma-gray-200 p-3 text-sm">
+      <p className="font-semibold text-ma-gray-800">{data.causeArea}</p>
       <p className="text-ma-gray-600">{formatCurrency(data.totalDollars)} ({data.percentage}%)</p>
       <p className="text-ma-gray-400">{data.grantCount} grant(s)</p>
     </div>
@@ -56,7 +56,7 @@ export function CauseAreaChart({ breakdown }: CauseAreaChartProps) {
 
   return (
     <div>
-      <h3 className="font-semibold text-ma-navy text-sm uppercase tracking-wide mb-4">
+      <h3 className="font-semibold text-ma-gray-800 text-sm uppercase tracking-wide mb-4">
         Giving by Cause Area
       </h3>
       <div className="flex items-start gap-6">
@@ -89,7 +89,7 @@ export function CauseAreaChart({ breakdown }: CauseAreaChartProps) {
                 className="w-3 h-3 rounded-full shrink-0"
                 style={{ backgroundColor: COLORS[index % COLORS.length] }}
               />
-              <span className="text-ma-navy truncate flex-1">{item.causeArea}</span>
+              <span className="text-ma-gray-800 truncate flex-1">{item.causeArea}</span>
               <span className="text-ma-gray-500 shrink-0 font-medium">{item.percentage}%</span>
               <span className="text-ma-gray-400 shrink-0 text-xs">{formatCurrency(item.totalDollars)}</span>
             </div>
